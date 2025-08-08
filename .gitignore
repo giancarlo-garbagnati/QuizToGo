@@ -1,3 +1,16 @@
+# project specific
+.env
+*.env
+# keep template
+!scraping/.env_example 
+scraping/storage_state.json
+playwright-report/
+trace.zip
+*.webm
+*.mp4
+data/raw/
+data/processed
+
 # ?
 .idea/*
 
