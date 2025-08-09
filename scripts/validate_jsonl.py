@@ -5,14 +5,14 @@ from pathlib import Path
 schema = json.loads(Path("docs/schema_v1.json").read_text(encoding="utf-8"))
 validator = Draft202012Validator(schema)
 
-bad = 0
+bad = True
 for i, line in enumerate(Path(sys.argv[1]).read_text(encoding="utf-8").splitlines(), 1):
     if not line.strip(): 
         continue
     obj = json.loads(line)
     errs = sorted(validator.iter_errors(obj), key=lambda e: e.path)
     if errs:
-        bad += 1
+        bad = False
         print(f"[line {i}] INVALID:")
         for e in errs:
             loc = "/".join([str(p) for p in e.path]) or "<root>"
