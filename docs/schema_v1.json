@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QuestionDoc v1.0",
+  "type": "object",
+  "required": ["schema_version","id","source","question","options","correct_options","hash"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": ["string","null"] },
+        "test_no": { "type": ["integer","null"] }
+      },
+      "additionalProperties": true
+    },
+    "question": {
+      "type": "object",
+      "required": ["q_no","text","type"],
+      "properties": {
+        "q_no": { "type": "integer" },
+        "text": { "type": "string", "minLength": 1 },
+        "html": { "type": ["string","null"] },
+        "type": { "enum": ["single","multiple"] }
+      },
+      "additionalProperties": false
+    },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["key","text"],
+        "properties": {
+          "key": { "type": "string", "pattern": "^[A-Z]$" },
+          "text": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "correct_options": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Z]$" }
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "needs_review": { "type": "boolean" },
+        "incomplete": { "type": "boolean" },
+        "skip": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "hash": { "type": "string", "pattern": "^sha1:[0-9a-f]{40}$" }
+  },
+  "additionalProperties": true
+}
